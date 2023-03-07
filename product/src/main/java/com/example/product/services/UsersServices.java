@@ -8,9 +8,11 @@ import com.example.product.domain.responses.MessageResponse;
 import com.example.product.domain.responses.UserDetailsAfterLoginResponse;
 import com.example.product.model.ProductUserMappingEntity;
 import com.example.product.model.ProductsEntity;
+import com.example.product.model.UserRolesEntity;
 import com.example.product.model.UsersEntity;
 import com.example.product.repository.ProductUserMappingRepository;
 import com.example.product.repository.ProductsRepository;
+import com.example.product.repository.UserRolesRepository;
 import com.example.product.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,6 +32,9 @@ public class UsersServices {
 
     @Autowired
     private ProductUserMappingRepository productUserMappingRepository;
+
+    @Autowired
+    private UserRolesRepository userRolesRepository;
 
     public MessageResponse userRegistration(UserRegistrationRequestDTO userRegistrationRequestDTO) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -53,6 +58,10 @@ public class UsersServices {
 
                 final UsersEntity save = usersRepository.save(usersEntity);
                 if (!Objects.isNull(save.getUserId())) {
+                    UserRolesEntity userRolesEntity = new UserRolesEntity();
+                    userRolesEntity.setUserId(save.getUserId());
+                    userRolesEntity.setRoleId(2);//1 for admin,2 for user
+                    userRolesRepository.save(userRolesEntity);
                     return new MessageResponse("User details registered successfully!");
                 }
             }

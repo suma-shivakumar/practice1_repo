@@ -12,11 +12,11 @@ public class UserRolesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_role_id")
-    private int userRoleId;
+    private Integer userRoleId;
 
     @Column(name = "role_id")
-    private int roleId;
+    private Integer roleId;
 
     @Column(name = "user_id")
-    private int userId;
+    private Integer userId;
 }
